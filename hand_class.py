@@ -13,6 +13,7 @@ class HandClass:
     def __init__(self, label):
         self.screen_width, self.screen_height = pyautogui.size()
         self.label = label
+        self.active = False
         self.frame = None
         self.landmarks = [
             self.Landmark("wrist"),
@@ -49,6 +50,7 @@ class HandClass:
             self.landmarks[i].landmark_y = y
             self.landmarks[i].x = self.screen_width / frame_width * x
             self.landmarks[i].y = self.screen_height / frame_height * y
+        self.active = True
 
     def reset_landmarks(self):
         for landmark in self.landmarks:
@@ -56,3 +58,4 @@ class HandClass:
             landmark.landmark_y = 0
             landmark.x = 0
             landmark.y = 0
+        self.active = False

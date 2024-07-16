@@ -2,6 +2,10 @@ import cv2
 import mediapipe as mp
 from hand_class import HandClass
 from gesture import Gesture
+import pyautogui
+
+# Disable the fail-safe
+pyautogui.FAILSAFE = False
 
 cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop) 
 hand_detector = mp.solutions.hands.Hands() # create a hand detector object
@@ -39,7 +43,8 @@ while True:
         gesture.reset() # reset the gesture
 
     cv2.imshow('Virtual Mouse', frame) # display the frame
-    if cv2.waitKey(1) & 0xFF == ord('q'): # press q to quit
+
+    if not gesture.active or cv2.waitKey(1) & 0xFF == ord('q'): # press q to quit
         break
 
 cap.release()
