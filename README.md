@@ -51,7 +51,7 @@ python main.py
 
 ## Project Structure
 
-- `hand_class.py`: Contains the `HandClass` which manages the hand landmarks.
+- `hand.py`: Contains the `Hand` which manages the hand landmarks.
 - `main.py`: The main script that captures video frames, detects hand landmarks, and performs gestures.
 - `gesture.py`: Contains the `Gesture` class that defines various mouse control actions based on hand gestures.
 
