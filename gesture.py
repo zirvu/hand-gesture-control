@@ -36,7 +36,7 @@ class Gesture:
             color=(0, 255, 0),
         )
         if self.can_move_pointer and self.hand_right.active:
-            pyautogui.moveTo(index_right_tip.x, index_right_tip.y) # move the mouse pointer to the tip of the index finger
+            pyautogui.moveTo(index_right_tip.x, index_right_tip.y, duration=0.1) # move the mouse pointer to the tip of the index finger
         
         if self.is_scroll and self.hand_right.active:
             if index_right_tip.y < self.frame.shape[0] // 2:

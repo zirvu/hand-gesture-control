@@ -1,7 +1,7 @@
 import cv2
 import pyautogui
 
-class HandClass:
+class Hand:
     class Landmark:
         def __init__(self, label):
             self.label = label

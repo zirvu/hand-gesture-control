@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-from hand_class import HandClass
+from hand import Hand
 from gesture import Gesture
 import pyautogui
 
@@ -11,8 +11,8 @@ cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop)
 hand_detector = mp.solutions.hands.Hands() # create a hand detector object
 drawing_utils = mp.solutions.drawing_utils # create a drawing utils object
 
-hand_left = HandClass("Left")
-hand_right = HandClass("Right")
+hand_left = Hand("Left")
+hand_right = Hand("Right")
 gesture = Gesture(hand_left, hand_right)
 
 while True:
