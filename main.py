@@ -3,11 +3,42 @@ import mediapipe as mp
 from hand import Hand
 from gesture import Gesture
 import pyautogui
+import os
+import logging
+
+# Suppress TensorFlow Lite warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+logging.getLogger('tensorflow').setLevel(logging.ERROR)
 
 # Disable the fail-safe
 pyautogui.FAILSAFE = False
 
-cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop) 
+# Initialize camera with error checking
+cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop)
+
+# Check if camera opened successfully
+if not cap.isOpened():
+    print("\n" + "="*50)
+    print("ERROR: Cannot access camera!")
+    print("="*50)
+    print("Please check the following:")
+    print("1. Camera privacy settings (Windows Settings → Privacy & security → Camera)")
+    print("2. Close other apps using camera (Skype, Teams, Zoom, Camera app)")
+    print("3. Camera drivers are properly installed")
+    print("4. Try unplugging and reconnecting USB camera")
+    print("5. Restart your computer if the issue persists")
+    print("="*50)
+    input("Press Enter to exit...")
+    exit()
+
+# Set camera properties for better performance
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FPS, 30)
+
+print("Camera initialized successfully!")
+print(f"Camera resolution: {int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))}x{int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))}")
+
 hand_detector = mp.solutions.hands.Hands() # create a hand detector object
 drawing_utils = mp.solutions.drawing_utils # create a drawing utils object
 
@@ -16,7 +47,13 @@ hand_right = Hand("Right")
 gesture = Gesture(hand_left, hand_right)
 
 while True:
-    _, frame = cap.read() # read a frame
+    ret, frame = cap.read() # read a frame
+    
+    # Check if frame was read successfully
+    if not ret:
+        print("ERROR: Could not read frame from camera")
+        break
+        
     frame = cv2.flip(frame, 1) # flip the frame
     frame_height, frame_width, _ = frame.shape # get the frame height and width
     gesture.setFrame(frame) # set the frame for gesture
